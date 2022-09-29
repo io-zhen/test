@@ -1,16 +1,16 @@
 {
-	"name": "KXKY",
-	"version": "0.1.0",
+	"name": "KXKY-云记事",
+	"version": "1.0.0",
 	"main": "./src/electron/electron.js",
 	"description": "electron+uni-app+vite+vue3+unicloud by KXKY 2022-09-24",
 	"author": {
 		"email": "947876@qq.com",
-		"name": "KXKY"
+		"name": "asstudio"
 	},
 	"build": {
 		"appId": "com.wangzhen.cc.",
-		"productName": "KXKY-记事本",
-		"copyright": "Copyright © 2022 -KXKY",
+		"productName": "KXKY-云记事",
+		"copyright": "Copyright © 2022-09-09 -KXKY",
 		"extends": null,
 		"asar": true,
 		"electronDownload": {
@@ -22,8 +22,8 @@
 			"perMachine": true,
 			"allowElevation": true,
 			"installerIcon": "./src/static/icon/note2.ico",
-			"menuCategory": "KXKY-记事本",
-			"shortcutName": "KXKY-记事本",
+			"menuCategory": "KXKY-云记事",
+			"shortcutName": "KXKY-云记事",
 			"createDesktopShortcut": true,
 			"createStartMenuShortcut": true
 		},
