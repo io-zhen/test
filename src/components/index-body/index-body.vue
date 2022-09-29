@@ -103,6 +103,9 @@
 		onMounted
 	} from 'vue'
 	import {
+		getCloudCategoryList
+	} from "@/hooks/unicloud.js"
+	import {
 		getTodoList,
 		todoList,
 		addTodo,
@@ -138,7 +141,9 @@
 	onMounted(() => {
 		getCategoryList()
 		getTodoList()
+		// getCloudCategoryList()
 	})
+
 	const timeup = () => {
 		uni.showToast({
 			title: '时间到了'
@@ -153,13 +158,13 @@
 		// 		icon: 'success'
 		// 	})
 		// });
-		ipcRenderer.send('action', 'Notification', {
-			title: '学习道德经时间到了',
-			body: '学习是人类进步的阶梯',
-			silent: false, //不静音
-			hasReply: true,
-			icon: './src/static/icon/note1.ico'
-		})
+		// ipcRenderer.send('action', 'Notification', {
+		// 	title: '学习道德经时间到了',
+		// 	body: '学习是人类进步的阶梯',
+		// 	silent: false, //不静音
+		// 	hasReply: true,
+		// 	icon: './src/static/icon/note1.ico'
+		// })
 	}
 </script>
 

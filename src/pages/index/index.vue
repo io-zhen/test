@@ -111,12 +111,12 @@
 			}
 			uni.onWindowResize(windowResizeCallback)
 			// 访问云函数
-			uniCloud.callFunction({
-				name: 'test',
-				success: res => {
-					this.cloudData = res.result.msg
-				}
-			})
+			// uniCloud.callFunction({
+			// 	name: 'test',
+			// 	success: res => {
+			// 		console.log(res)
+			// 	}
+			// })
 		},
 		beforeDestroy() {
 

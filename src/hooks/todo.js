@@ -65,14 +65,14 @@ const getTodoList = async (_id) => {
 	let res
 	if (!_id) {
 		currentCategoryId.value = ''
-		res = await todoDb.find()
+		res = await todoDb.find({}, -1)
 	} else {
 		currentCategoryId.value = _id
 		dataObj.parentID = _id
 		res = await todoDb.find(dataObj, -1)
 	}
-
 	todoList.value = res.data
+
 }
 // 获取一条数据
 const getOne = async (findObj) => {

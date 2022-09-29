@@ -3,6 +3,9 @@ import {
 	ref
 } from 'vue'
 import dataStore from "@/nedb/db.js";
+import {
+	getCloudCategoryList
+} from "@/hooks/unicloud.js"
 const categoryDb = new dataStore('category')
 
 const categoryList = reactive([])
@@ -10,6 +13,23 @@ const categoryList = reactive([])
 let getCategoryList = async () => {
 	const res = await categoryDb.find()
 	categoryList.value = res.data
+	const cloudRes = await getCloudCategoryList()
+
+	console.log('本地:', res.data)
+	console.log('云端:', cloudRes)
+	const Datastore = require('nedb');
+	const DB = new Datastore({
+		autoload: true,
+		filename: './src/nedb/test.db',
+	})
+	DB.insert(cloudRes,
+		function(err, newDocs) {
+			if (err) {
+				console.log(err)
+			}
+			console.log(newDocs)
+		})
+
 }
 const getOne = async (_id, title) => {
 	let dataObj = reactive({})
