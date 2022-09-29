@@ -4,6 +4,14 @@ import {
 } from 'vue'
 import dataStore from "@/nedb/db.js";
 import {
+	asyncList,
+	getAsyncList,
+	getAsyncOne,
+	addAsync,
+	delAsync,
+	updateAsync
+} from "@/hooks/async.js"
+import {
 	getCloudCategoryList
 } from "@/hooks/unicloud.js"
 const categoryDb = new dataStore('category')
@@ -13,23 +21,7 @@ const categoryList = reactive([])
 let getCategoryList = async () => {
 	const res = await categoryDb.find()
 	categoryList.value = res.data
-	const cloudRes = await getCloudCategoryList()
-
-	console.log('本地:', res.data)
-	console.log('云端:', cloudRes)
-	const Datastore = require('nedb');
-	const DB = new Datastore({
-		autoload: true,
-		filename: './src/nedb/test.db',
-	})
-	DB.insert(cloudRes,
-		function(err, newDocs) {
-			if (err) {
-				console.log(err)
-			}
-			console.log(newDocs)
-		})
-
+	return res.data
 }
 const getOne = async (_id, title) => {
 	let dataObj = reactive({})
@@ -62,6 +54,7 @@ let addCategory = async (title) => {
 		title: title
 	})
 	const res = await categoryDb.insert(dataObj)
+	addAsync('add', res.data, res.data._id)
 	uni.showToast({
 		title: "插入成功",
 		icon: "none"
@@ -74,6 +67,8 @@ let delCategory = async (_id) => {
 		_id
 	})
 	const res = await categoryDb.del(dataObj)
+	console.log(res)
+	await addAsync('del', null, _id)
 	uni.showToast({
 		title: "删除成功",
 		icon: "none"
@@ -89,6 +84,10 @@ let updateCategory = async (_id, title) => {
 	const res = await categoryDb.update(dataObj, {
 		title
 	})
+	addAsync('update', {
+		_id,
+		title
+	}, _id)
 	uni.showToast({
 		title: "修改成功",
 		icon: "none"

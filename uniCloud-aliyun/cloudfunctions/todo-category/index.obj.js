@@ -3,9 +3,19 @@
 let dbJQL
 const db = uniCloud.database();
 const dbCmd = db.command
-const findByTitle = (title) => {
-	console.log('findByTitle')
-	return title
+const dbCol = db.collection('todo-category')
+const findByTitle = async (arrObj) => {
+	let arr = []
+	for (let i = 0; i < arrObj.length; i++) {
+		const res = await dbCol.where({
+			_id: arrObj[i]._id,
+			title: arrObj[i].title,
+		}).count()
+		if (res.total == 0) {
+			arr.push(arrObj[i])
+		}
+	}
+	return arr
 }
 const getCategory = async (limit = 10) => {
 	// let res = await db.collection('my-music-backup').doc(event.id).update({
@@ -18,8 +28,7 @@ const getCategory = async (limit = 10) => {
 	return {
 		code: 0,
 		message: '访问成功',
-		data: res.data,
-		find: findByTitle('要查找的标题')
+		data: res.data
 	}
 }
 
@@ -36,9 +45,8 @@ module.exports = {
 		const res = await db.collection('todo-category').add(dataObj) // 直接执行数据库操作
 		return {
 			code: 0,
-			message: '插入成功',
+			message: '执行插入成功',
 			data: res
-
 		}
 	},
 	add: function(datas) { //测试函数
@@ -63,9 +71,14 @@ module.exports = {
 	},
 	_after(error, result) {
 		if (error) {
-			throw error // 如果方法抛出错误，也直接抛出不处理
+			// throw error // 如果方法抛出错误，也直接抛出不处理
+			return {
+				code: 1,
+				message: '执行失败',
+				data: error
+			}
 		}
-		result.timeCost = Date.now() - this.startTime
+		// result.timeCost = Date.now() - this.startTime
 		return result
 	}
 

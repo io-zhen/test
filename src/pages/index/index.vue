@@ -10,7 +10,8 @@
 			<view class="p-2  flex align-center opacity7">
 				<!-- alwaysOnTop 窗口置顶 FullScreen -->
 				<uni-tooltip content="上传到云服务器">
-					<view class="top-icon noDrag rounded-circle p-1 iconfont icon-yunshangchuan_o font-lg " />
+					<view @click="upload()"
+						class="top-icon noDrag rounded-circle p-1 iconfont icon-yunshangchuan_o font-lg " />
 				</uni-tooltip>
 
 				<view class="top-icon noDrag rounded-circle p-1 iconfont icon-guanyu font-lg "></view>
@@ -57,6 +58,9 @@
 	const {
 		ipcRenderer
 	} = require('electron')
+	import {
+		upload
+	} from "@/hooks/upload.js"
 	export default {
 		data() {
 			return {
@@ -74,6 +78,7 @@
 			}
 		},
 		mounted() {
+
 			// 首次加载时获取窗口高并赋值
 			const wh = uni.getWindowInfo().windowHeight
 			this.windowHeight = wh - 30
@@ -122,6 +127,9 @@
 
 		},
 		methods: {
+			upload() {
+				upload()
+			},
 			delCategory() {
 				console.log('fu')
 				this.$refs.alertDialog.open()

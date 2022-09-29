@@ -8,29 +8,45 @@ const getCloudCategoryList = async () => {
 	// console.log('云端：', res.data)
 	return res.data
 }
-const addCategory = async () => {
-	const res = await todo.addCategory([{
-		title: '读书100',
-		_id: '111111111'
-	}, {
-		title: '读书99'
-	}])
+const addCategory = async (arrObj) => {
+	const res = await todo.addCategory(arrObj)
+	if (res.code == 1) {
+		return uni.showToast({
+			title: res.message,
+			icon: "error"
+		})
+	}
 	uni.showToast({
-		title: '成功插入1条云数据'
+		title: `成功插入${arrObj.length}云数据`
 	})
 	console.log(res)
 	return res
 }
-const findByTitle = async (title = "读书") => {
-	const res = await todo.findByTitle(title)
-	uni.showToast({
-		title: '成功找到'
-	})
+const findByTitle = async (arrObj) => {
+	const res = await todo.findByTitle(arrObj)
 	console.log(res)
 	return res
 }
+const arrObj = [{
+	"title": "111设置",
+	"updateTime": 1664450784251,
+	"_id": "R93wZdnDP9iIJCNk"
+}, {
+	"title": "设置",
+	"updateTime": 1664450784251,
+	"_id": "R93wZdnDP5iIJCNk"
+}, {
+	"title": "阿达1",
+	"updateTime": 1664450613995,
+	"_id": "bYKGlXlYbpc7uIqu"
+}, {
+	"title": "学习",
+	"updateTime": 1664382911307,
+	"_id": "sWlviKTepSeF6f22"
+}]
 //addCategory()
-// findByTitle()
+// findByTitle(arrObj)
 export {
-	getCloudCategoryList
+	getCloudCategoryList,
+	addCategory
 }

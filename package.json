@@ -1,5 +1,5 @@
 {
-	"name": "KXKY-云记事",
+	"name": "KXKY-Todo",
 	"version": "1.0.0",
 	"main": "./src/electron/electron.js",
 	"description": "electron+uni-app+vite+vue3+unicloud by KXKY 2022-09-24",
@@ -68,7 +68,7 @@
 	},
 	"scripts": {
 		"dist": "electron-builder --win --ia32",
-		"unidist": "cli publish --platform h5 --project uni-electron-demo1 && electron-builder --win --ia32",
+		"unidist": "cli publish --platform h5 --project uni-electron-cloud && electron-builder --win --ia32",
 		"start": "wait-on tcp:3000  && nodemon  --exec electron .",
 		"dev:custom": "uni -p",
 		"dev:h5": "uni",

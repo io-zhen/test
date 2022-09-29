@@ -7,7 +7,7 @@ const nedb = class { //将类赋给一个表达式或变量
 			autoload: true,
 			filename: this.getExtraFilesPath(dataName),
 			onload: (e) => {
-				console.log('数据链接成功')
+				// console.log('数据链接成功')
 			}
 		})
 	}
@@ -85,7 +85,8 @@ const nedb = class { //将类赋给一个表达式或变量
 				}
 				return resolve({
 					code: 0,
-					message: '插入成功'
+					message: '插入成功',
+					data: doc
 				})
 			})
 		})
