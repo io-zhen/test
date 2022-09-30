@@ -9,7 +9,8 @@
 			<view class="font-smaller noDrag"></view>
 			<view class="p-2  flex align-center opacity7">
 				<!-- alwaysOnTop 窗口置顶 FullScreen -->
-				<uni-tooltip content="上传到云服务器">
+				<uni-tooltip :content="`${asyncLength}上传到云服务器`">
+
 					<view @click="upload()"
 						class="top-icon noDrag rounded-circle p-1 iconfont icon-yunshangchuan_o font-lg " />
 				</uni-tooltip>
@@ -36,8 +37,7 @@
 			</view>
 		</view>
 		<!-- body -->
-		<index-body @delCategory="delCategory" :windowHeight="windowHeight" @add="addNedb" @del="delNedb"
-			@update="updateNedb" />
+		<index-body :windowHeight="windowHeight" />
 		<!-- bottom -->
 		<view class="bg-dark" style="height: 0px;">
 		</view>
@@ -59,11 +59,15 @@
 		ipcRenderer
 	} = require('electron')
 	import {
-		upload
+		upload,
 	} from "@/hooks/upload.js"
+	import {
+		getAsyncLength
+	} from "@/hooks/Async.js"
 	export default {
 		data() {
 			return {
+				asyncLength: 0,
 				uniState: { //uniapp组件相关参数信息
 					msgType: 'info',
 					messageText: '这是一条信息提示'
@@ -77,11 +81,20 @@
 				cloudData: '' //云端数据
 			}
 		},
-		mounted() {
 
+		mounted() {
+			this.getAsyncList()
 			// 首次加载时获取窗口高并赋值
 			const wh = uni.getWindowInfo().windowHeight
 			this.windowHeight = wh - 30
+
+			// 利用uniapp的API监听窗口宽高
+			const windowResizeCallback = (res) => {
+				this.windowHeight = res.size.windowHeight - 30
+				// console.log('变化后的窗口宽度=' + res.size.windowWidth)
+				// console.log('变化后的窗口高度=' + res.size.windowHeight)
+			}
+			uni.onWindowResize(windowResizeCallback)
 			// 监听主进程事件
 			ipcRenderer.on('hasMax', (e, v) => {
 				this.electronState.hasMax = v
@@ -107,87 +120,17 @@
 
 			})
 		},
-		onLoad() {
-			// 利用uniapp的API监听窗口宽高
-			const windowResizeCallback = (res) => {
-				this.windowHeight = res.size.windowHeight - 30
-				// console.log('变化后的窗口宽度=' + res.size.windowWidth)
-				// console.log('变化后的窗口高度=' + res.size.windowHeight)
-			}
-			uni.onWindowResize(windowResizeCallback)
-			// 访问云函数
-			// uniCloud.callFunction({
-			// 	name: 'test',
-			// 	success: res => {
-			// 		console.log(res)
-			// 	}
-			// })
-		},
-		beforeDestroy() {
-
-		},
 		methods: {
+			async getAsyncList() {
+				const length = await getAsyncLength()
+				this.asyncLength = length
+			},
 			upload() {
 				upload()
 			},
 			delCategory() {
 				console.log('fu')
 				this.$refs.alertDialog.open()
-			},
-			async updateNedb(id, title) {
-				try {
-					const result = await this.$db.update(id, title)
-					this.findNedb()
-					this.noticeToggle('修改成功!')
-					return result
-				} catch (e) {
-					console.log(e)
-					this.noticeToggle('修改失败:!', e)
-				}
-			},
-			async delNedb(id) {
-				console.log('删除：', id)
-				try {
-					const result = await this.$db.del(id)
-					this.findNedb()
-					this.noticeToggle('删除成功!')
-					return result
-				} catch (e) {
-					console.log(e)
-					this.noticeToggle('删除失败:!', e)
-				}
-			},
-			async findNedb(flag = 1, data = {}) {
-				this.$db.dbInit('category')
-				try {
-					const result = await this.$db.find(data)
-					if (flag == 1) {
-						this.nedbData = result.data
-					}
-					return result
-				} catch (e) {
-					console.log(e)
-				}
-			},
-			async addNedb(data) {
-				if (data.title == '') {
-					this.noticeToggle('标题不能为空!')
-					return
-				}
-				const {
-					code
-				} = await this.findNedb(0, data)
-				if (code == 0) {
-					this.noticeToggle('标题重复')
-					return
-				}
-				try {
-					this.$db.add(data).then((res) => {
-						this.findNedb()
-					})
-				} catch (e) {
-					console.log(e)
-				}
 			},
 			// 向主进程发送消息
 			toIpcMain(e) {

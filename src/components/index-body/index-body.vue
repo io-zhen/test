@@ -82,13 +82,6 @@
 					</view>
 				</view>
 			</view>
-			<view class="">
-				<uni-section title="定时事件" type="none" padding>
-					<uni-countdown :show-day="false" :font-size="30" :day="0" :hour="0" :minute="0" :second="10"
-						color="#555" background-color="#DEE4F2" @timeup="timeup" />
-				</uni-section>
-			</view>
-
 		</view>
 	</view>
 </template>
@@ -143,29 +136,6 @@
 		getTodoList()
 		// getCloudCategoryList()
 	})
-
-	const timeup = () => {
-		uni.showToast({
-			title: '时间到了'
-		})
-		// 发送短信
-		// uniCloud.callFunction({
-		// 	name: 'sendMessage',
-		// }).then(res => {
-		// 	console.log('短信回复:', res)
-		// 	uni.showToast({
-		// 		title: res,
-		// 		icon: 'success'
-		// 	})
-		// });
-		// ipcRenderer.send('action', 'Notification', {
-		// 	title: '学习道德经时间到了',
-		// 	body: '学习是人类进步的阶梯',
-		// 	silent: false, //不静音
-		// 	hasReply: true,
-		// 	icon: './src/static/icon/note1.ico'
-		// })
-	}
 </script>
 
 <style scoped>

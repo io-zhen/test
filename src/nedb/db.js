@@ -6,9 +6,6 @@ const nedb = class { //将类赋给一个表达式或变量
 		this.db = new Datastore({
 			autoload: true,
 			filename: this.getExtraFilesPath(dataName),
-			onload: (e) => {
-				// console.log('数据链接成功')
-			}
 		})
 	}
 	getExtraFilesPath(dataName) {

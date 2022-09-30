@@ -54,7 +54,7 @@ let addCategory = async (title) => {
 		title: title
 	})
 	const res = await categoryDb.insert(dataObj)
-	addAsync('add', res.data, res.data._id)
+	await addAsync('add', res.data, res.data._id)
 	uni.showToast({
 		title: "插入成功",
 		icon: "none"
@@ -73,7 +73,7 @@ let delCategory = async (_id) => {
 		title: "删除成功",
 		icon: "none"
 	})
-	getCategoryList()
+	await getCategoryList()
 	return res
 }
 let updateCategory = async (_id, title) => {

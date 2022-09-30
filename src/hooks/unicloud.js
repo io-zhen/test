@@ -10,16 +10,16 @@ const getCloudCategoryList = async () => {
 }
 const addCategory = async (arrObj) => {
 	const res = await todo.addCategory(arrObj)
-	if (res.code == 1) {
-		return uni.showToast({
-			title: res.message,
-			icon: "error"
-		})
-	}
-	uni.showToast({
-		title: `成功插入${arrObj.length}云数据`
-	})
-	console.log(res)
+	// if (res.code == 1) {
+	// 	return uni.showToast({
+	// 		title: res.message,
+	// 		icon: "error"
+	// 	})
+	// }
+	// uni.showToast({
+	// 	title: `成功插入${arrObj.length}云数据`
+	// })
+	// console.log(res)
 	return res
 }
 const findByTitle = async (arrObj) => {

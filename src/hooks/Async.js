@@ -7,7 +7,14 @@ import dataStore from "@/nedb/db.js";
 const asyncDb = new dataStore('async')
 
 const asyncList = reactive([])
-
+const getAsyncLength = async () => {
+	const res = await getAsyncList()
+	console.log(res)
+	if (res.code == 1) {
+		return 0
+	}
+	return res.data.length
+}
 let getAsyncList = async (condition = {}) => {
 	const res = await asyncDb.find(condition)
 	asyncList.value = res.data
@@ -28,12 +35,13 @@ const getAsyncOne = async (_id, title, docid) => {
 	const res = await asyncDb.findOne(dataObj)
 	return res
 }
+// 添加本地操作记录
 let addAsync = async (type, data, docid) => {
 	if (type == 'del') {
 		const findRes = await getAsyncList({
 			docid
 		})
-		console.log("执行删除时的记录：", findRes)
+		console.log("addAsync执行删除时的记录：", findRes)
 		//执行删除操作的记录时，如果找到了该删除操作的新建记录和更新记录 那么
 		// 1.把 新建记录和编辑记录同时删掉，2最后，也不记录本次删除操作
 		// findRes._id是找到的新建记录ID，我们接下来就执行删除和停止
@@ -62,10 +70,6 @@ let delAsync = async (_id) => {
 		_id
 	})
 	const res = await asyncDb.del(dataObj)
-	uni.showToast({
-		title: "删除成功",
-		icon: "none"
-	})
 	getAsyncList()
 	return res
 }
@@ -90,5 +94,6 @@ export {
 	getAsyncOne,
 	addAsync,
 	delAsync,
-	updateAsync
+	updateAsync,
+	getAsyncLength
 }
