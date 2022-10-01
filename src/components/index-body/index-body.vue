@@ -44,12 +44,16 @@
 					<input spellcheck="false" @confirm="addCategory(newCatgoryTitle)" type="text" placeholder="新的分组名"
 						placeholder-style="color:#DEE4F2" class="border-bottom font-sm mt-1" v-model="newCatgoryTitle">
 				</view>
-				<view class="flex ">
-					<view class="left-bottom mx-1 py-1"><text class="iconfont icon-shezhi mr-1"></text>设置
+				<view class="flex align-center">
+					<view class="flex align-center left-bottom mx-1 py-1"><text
+							class="iconfont icon-shezhi mr-1"></text>设置
 					</view>
-					<view class="left-bottom mx-1 py-1" @click="isEditor=!isEditor"><text
+					<view class="flex align-center left-bottom mx-1 py-1" @click="isEditor=!isEditor"><text
 							class="iconfont icon-shezhi mr-1"></text>
 						<text>{{isEditor?'完成':'编辑'}}</text>
+					</view>
+					<view class="ml-1 font-lg">
+						<navigator url="/pages/sqlite/sqlite">SQLITE</navigator>
 					</view>
 				</view>
 			</view>
@@ -87,17 +91,10 @@
 </template>
 
 <script setup>
-	const {
-		ipcRenderer
-	} = require('electron')
 	import {
 		ref,
-		reactive,
 		onMounted
 	} from 'vue'
-	import {
-		getCloudCategoryList
-	} from "@/hooks/unicloud.js"
 	import {
 		getTodoList,
 		todoList,
@@ -116,7 +113,7 @@
 		isEditor
 	} from "@/hooks/category.js"
 	let emits = defineEmits(['add', 'delCategory', 'update'])
-	let props = defineProps({
+	defineProps({
 		windowHeight: { //动态调整列表和窗口的宽度同步
 			type: [String, Number],
 			default: 0,
@@ -134,7 +131,6 @@
 	onMounted(() => {
 		getCategoryList()
 		getTodoList()
-		// getCloudCategoryList()
 	})
 </script>
 

@@ -36,10 +36,12 @@
 			"publisherName": "KXKY",
 			"requestedExecutionLevel": "highestAvailable"
 		},
-		"extraResources": [{
-			"from": "./src/nedb",
-			"to": "./nedb"
-		}],
+		"extraResources": [
+			{
+				"from": "./src/nedb",
+				"to": "./nedb"
+			}
+		],
 		"files": [
 			"dist/**/*",
 			"./src/electron/**/*",
@@ -94,6 +96,7 @@
 		"@vueuse/core": "^9.2.0",
 		"electron-is-dev": "^2.0.0",
 		"nedb": "^1.8.0",
+		"qiao-sqlite": "^0.3.8",
 		"vue": "^3.2.37",
 		"vue-i18n": "^9.1.9",
 		"vuex": "4.0.0"

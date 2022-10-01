@@ -3,10 +3,21 @@ const path = require('path')
 
 const nedb = class { //将类赋给一个表达式或变量
 	constructor(dataName) {
+		this.instance
+		this.db = null
+		this.init(dataName)
+	}
+	init(dataName) {
 		this.db = new Datastore({
 			autoload: true,
 			filename: this.getExtraFilesPath(dataName),
 		})
+		console.log('init:', dataName)
+	}
+	// 单例
+	static getInstance(dataName) {
+		this.instance = this.instance ? this.instance : new nedb(dataName)
+		return this.instance
 	}
 	getExtraFilesPath(dataName) {
 		if (process.env.NODE_ENV == 'development') {

@@ -4,17 +4,11 @@ import {
 } from 'vue'
 import dataStore from "@/nedb/db.js";
 import {
-	asyncList,
-	getAsyncList,
-	getAsyncOne,
-	addAsync,
-	delAsync,
-	updateAsync
+	addAsync
 } from "@/hooks/async.js"
-import {
-	getCloudCategoryList
-} from "@/hooks/unicloud.js"
 const categoryDb = new dataStore('category')
+
+
 
 const categoryList = reactive([])
 

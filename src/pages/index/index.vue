@@ -62,7 +62,8 @@
 		upload,
 	} from "@/hooks/upload.js"
 	import {
-		getAsyncLength
+		getAsyncLength,
+		getAsyncList
 	} from "@/hooks/Async.js"
 	export default {
 		data() {

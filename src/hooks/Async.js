@@ -1,11 +1,10 @@
 // 记录本地nedb操作记录，保存到单独数据库，用户点击同步时，与云服务器的数据进行同步
 import {
-	reactive,
-	ref
+	reactive
 } from 'vue'
-import dataStore from "@/nedb/db.js";
-const asyncDb = new dataStore('async')
-
+import nedb from "@/nedb/db.js";
+const asyncDb = nedb.getInstance('async')
+// const asyncDb = new dataStore('async')
 const asyncList = reactive([])
 const getAsyncLength = async () => {
 	const res = await getAsyncList()
@@ -16,6 +15,7 @@ const getAsyncLength = async () => {
 	return res.data.length
 }
 let getAsyncList = async (condition = {}) => {
+	// const asyncDb = new dataStore('async')
 	const res = await asyncDb.find(condition)
 	asyncList.value = res.data
 	// console.log(res)
